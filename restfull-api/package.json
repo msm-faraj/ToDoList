@@ -4,7 +4,7 @@
   "description": "my first api",
   "main": "enter.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon enter.js"
   },
   "author": "msm-faraj",
   "license": "ISC",
