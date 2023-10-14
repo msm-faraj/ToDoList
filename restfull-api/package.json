@@ -2,9 +2,9 @@
   "name": "rest",
   "version": "1.0.0",
   "description": "my first api",
-  "main": "enter.js",
+  "main": "index.js",
   "scripts": {
-    "devStart": "nodemon enter.js"
+    "devStart": "nodemon server.js"
   },
   "author": "msm-faraj",
   "license": "ISC",
