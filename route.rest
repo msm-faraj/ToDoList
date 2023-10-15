@@ -16,9 +16,9 @@ Content-Type: application/json
 DELETE http://localhost:3000/todos/652b9c0e32e53c0008ec13d5
 
 ###
-PATCH  http://localhost:3000/todos/652babbfd5f2a41e54b49561
+PATCH  http://localhost:3000/todos/652b9c2832e53c0008ec13d8
 Content-Type: application/json
 
 {
-	"todoText": "third todo"
+	"name": "new second todo"
 }

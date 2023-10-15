@@ -20,27 +20,27 @@ router.get("/:id", getTodo, (req, res) => {
 //creating one
 router.post("/", async (req, res) => {
   const todo = new Todo({
-    todoText: req.body.todoText,
+    name: req.body.name,
     todoDate: req.body.todoDate,
   });
   try {
     const newTodo = await todo.save();
     res.status(201).json(newTodo);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
 //updating one
 router.patch("/:id", getTodo, async (req, res) => {
-  if (req.body.todoText != null) {
-    res.todo.todoText = req.body.todoText;
+  if (req.body.name) {
+    res.todo.name = req.body.name;
   }
   try {
     const updatedTodo = await res.todo.save();
     res.json(updatedTodo);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -59,7 +59,7 @@ async function getTodo(req, res, next) {
   let todo;
   try {
     todo = await Todo.findById(req.params.id);
-    if (todo == null) {
+    if (!todo) {
       return res.status(404).json({ message: "cannot find todo" });
     }
   } catch (err) {

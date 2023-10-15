@@ -1,14 +1,23 @@
 const mongoose = require("mongoose");
 
 const todoSchema = new mongoose.Schema({
-  todoText: {
+  name: {
     type: String,
     required: true,
+  },
+  createdAt: {
+    //how to make it immutable!!!??
+    type: Date,
+    default: Date.now,
   },
   todoDate: {
     type: Date,
     required: true,
     default: Date.now,
+  },
+  isDone: {
+    type: Boolean,
+    default: false,
   },
 });
 
