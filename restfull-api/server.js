@@ -9,7 +9,8 @@ db.on("error", (error) => console.error(error.text));
 db.once("open", () => console.log("Connecting to DataBase"));
 
 app.use(express.json());
-const toDoRouter = require("./routes/todos");
-app.use("./todos", toDoRouter);
+
+const tdosRouter = require("./routes/todos");
+app.use("/todos", tdosRouter);
 
 app.listen(3000, () => console.log("Server Started"));
