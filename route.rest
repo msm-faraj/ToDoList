@@ -1,22 +1,22 @@
 
-GET http://localhost:3000/todos
+GET http://localhost:3000/api/todos
 
 ###
-GET http://localhost:3000/todos/652b9c2832e53c0008ec13d8
+GET http://localhost:3000/api/todos/652b9c2832e53c0008ec13d8
 
 ###
-POST http://localhost:3000/todos
+POST http://localhost:3000/api/todos
 Content-Type: application/json
 
 {
-	"todoText": "second todo"
+	"name": "third todo"
 }
 
 ###
-DELETE http://localhost:3000/todos/652b9c0e32e53c0008ec13d5
+DELETE http://localhost:3000/api/todos/652d94eb2b5b7b785cb86bd3
 
 ###
-PATCH  http://localhost:3000/todos/652b9c2832e53c0008ec13d8
+PATCH  http://localhost:3000/api/todos/652d953f2b5b7b785cb86bd9
 Content-Type: application/json
 
 {

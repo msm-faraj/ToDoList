@@ -11,6 +11,6 @@ db.once("open", () => console.log("Connecting to DataBase"));
 app.use(express.json());
 
 const tdosRouter = require("./routes/todos");
-app.use("/todos", tdosRouter);
+app.use("/api/todos", tdosRouter);
 
 app.listen(3000, () => console.log("Server Started"));
