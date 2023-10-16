@@ -4,6 +4,8 @@ const todoSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
+    maxlength: 256,
   },
   createdAt: {
     //how to make it immutable!!!??

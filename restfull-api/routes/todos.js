@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 //getting one
 router.get("/:id", getTodo, (req, res) => {
   res.json(res.todo);
