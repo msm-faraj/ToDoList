@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Todo = require("../models/todo");
 const todo = require("../models/todo");
+const Joi = require("joi");
 
 //getting all
 router.get("/", async (req, res) => {
@@ -20,6 +21,14 @@ router.get("/:id", getTodo, (req, res) => {
 
 //creating one
 router.post("/", async (req, res) => {
+  //validation
+  const schema = {
+    name: Joi.string().min(3).max(256).required(),
+  };
+  const result = Joi.validate(req.body, schema);
+  if (result.error)
+    return res.status(400).send(result.error.details[0].message);
+  //
   const todo = new Todo({
     name: req.body.name,
     todoDate: req.body.todoDate,
@@ -32,8 +41,16 @@ router.post("/", async (req, res) => {
   }
 });
 
-//updating one
+//updating one ********* ***** ***** ****
 router.patch("/:id", getTodo, async (req, res) => {
+  //validation
+  const schema = {
+    name: Joi.string().min(3).max(256).required(),
+  };
+  const result = Joi.validate(req.body, schema);
+  if (result.error)
+    return res.status(400).send(result.error.details[0].message);
+  //
   if (req.body.name) {
     res.todo.name = req.body.name;
   }
@@ -54,6 +71,13 @@ router.delete("/:id", getTodo, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+// Validate Todo fuction
+function validateTodo(todo) {
+  const schema = {
+    name: Joi.string().min(3).max(256).required(),
+  };
+  return Joi.validate(todo, schema);
+}
 
 //getTodo middleWare
 async function getTodo(req, res, next) {

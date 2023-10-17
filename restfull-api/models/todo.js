@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const todoSchema = new mongoose.Schema({
   name: {
     type: String,
-    match: /^\w{0,256}$/,
+    // match: /^.{0,256}$/,
     required: true,
     trim: true,
   },
