@@ -21,13 +21,9 @@ router.get("/:id", getTodo, (req, res) => {
 
 //creating one
 router.post("/", async (req, res) => {
-  //validation
-  const schema = {
-    name: Joi.string().min(3).max(256).required(),
-  };
-  const result = Joi.validate(req.body, schema);
-  if (result.error)
-    return res.status(400).send(result.error.details[0].message);
+  //name validation
+  const { error } = validateTodoName(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
   //
   const todo = new Todo({
     name: req.body.name,
@@ -43,13 +39,9 @@ router.post("/", async (req, res) => {
 
 //updating one ********* ***** ***** ****
 router.patch("/:id", getTodo, async (req, res) => {
-  //validation
-  const schema = {
-    name: Joi.string().min(3).max(256).required(),
-  };
-  const result = Joi.validate(req.body, schema);
-  if (result.error)
-    return res.status(400).send(result.error.details[0].message);
+  //name validation
+  const { error } = validateTodoName(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
   //
   if (req.body.name) {
     res.todo.name = req.body.name;
@@ -72,11 +64,11 @@ router.delete("/:id", getTodo, async (req, res) => {
   }
 });
 // Validate Todo fuction
-function validateTodo(todo) {
+function validateTodoName(todoName) {
   const schema = {
     name: Joi.string().min(3).max(256).required(),
   };
-  return Joi.validate(todo, schema);
+  return Joi.validate(todoName, schema);
 }
 
 //getTodo middleWare
