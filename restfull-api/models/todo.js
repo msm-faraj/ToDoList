@@ -3,9 +3,9 @@ const mongoose = require("mongoose");
 const todoSchema = new mongoose.Schema({
   name: {
     type: String,
+    match: "/^.{0,256}$/",
     required: true,
     trim: true,
-    maxlength: 256,
   },
   createdAt: {
     //how to make it immutable!!!??
