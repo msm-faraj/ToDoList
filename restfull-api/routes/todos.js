@@ -90,19 +90,4 @@ function validateTodoName(todoName) {
   return Joi.validate(todoName, schema);
 }
 
-//getTodo middleWare
-async function getTodo(req, res, next) {
-  let todo;
-  try {
-    todo = await Todo.findById(req.params.id);
-    if (!todo) {
-      return res.status(404).json({ message: "cannot find todo" });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-  res.todo = todo;
-  next();
-}
-
 module.exports = router;
