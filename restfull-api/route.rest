@@ -2,23 +2,23 @@
 GET http://localhost:3000/api/todos
 
 ###
-GET http://localhost:3000/api/todos/6531608cdd58fce565864f20
+GET http://localhost:3000/api/todos/65313bfee8b415264407886f
 
 ###
 POST http://localhost:3000/api/todos
 Content-Type: application/json
 
 {
-	"name": "another one"
+	"name": "new name"
 }
 
 ###
-DELETE http://localhost:3000/api/todos/6531608cdd58fce565864f20
+DELETE http://localhost:3000/api/todos/65313bfee8b415264407886f
 
 ###
 PATCH  http://localhost:3000/api/todos/653161a2ba20e28fc556dac7
 Content-Type: application/json
 
 {
-	"name": "second one"
+	"name": "changed name"
 }
