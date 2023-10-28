@@ -42,16 +42,16 @@ class TodoController {
 
   async updateTodo(req, res) {
     let result;
-    result = await Todo.findById(req.params.id);
-    if (!result) {
-      res.status(404).json({ message: "cannot find todo" });
-    }
-    const { error } = validateTodoName(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-    if (req.body.name) {
-      result.name = req.body.name;
-    }
     try {
+      result = await Todo.findById(req.params.id);
+      if (!result) {
+        return res.status(404).json({ message: "cannot find todo" });
+      }
+      const { error } = validateTodoName(req.body);
+      if (error) return res.status(400).send(error.details[0].message);
+      if (req.body.name) {
+        result.name = req.body.name;
+      }
       const updatedTodo = await result.save();
       res.json(updatedTodo);
     } catch (err) {
