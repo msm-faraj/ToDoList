@@ -2,14 +2,14 @@
 GET http://localhost:3000/api/todos
 
 ###
-GET http://localhost:3000/api/todos/65313bfee8b415264407886f
+GET http://localhost:3000/api/todos/6537a86430770ee0c64f56f6
 
 ###
 POST http://localhost:3000/api/todos
 Content-Type: application/json
 
 {
-	"name": "new name"
+	"name": "the third one"
 }
 
 ###
