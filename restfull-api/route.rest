@@ -9,16 +9,17 @@ POST http://localhost:3000/api/todos
 Content-Type: application/json
 
 {
-	"nme": "la"
+	"name": "new name"
 }
 
 ###
-DELETE http://localhost:3000/api/todos/653d36c42f97c285577efbf1
+DELETE http://localhost:3000/api/todos/653e0d55c706222eec61cd87
 
 ###
-PATCH  http://localhost:3000/api/todos/653d46df9a6a204999fa3fd
+PATCH  http://localhost:3000/api/todos/653e0cfcc706222eec61cd85
 Content-Type: application/json
 
 {
-	"name": "chasdfas"
+	"name": "chasdfas",
+	"isDone": true
 }
