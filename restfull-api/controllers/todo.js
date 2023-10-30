@@ -1,12 +1,12 @@
-const Todo = require("../models/todo");
-const Joi = require("joi");
-
 class TodoController {
-  constructor() {}
+  constructor(Todo, validator) {
+    this.Todo = Todo;
+    this.validator = validator;
+  }
 
   async getAllTodos(req, res, next) {
     try {
-      const todos = await Todo.find();
+      const todos = await this.Todo.find();
       return res.json(todos);
     } catch (err) {
       next(err);
@@ -15,7 +15,7 @@ class TodoController {
 
   async getOneTodo(req, res, next) {
     try {
-      const todo = await Todo.findById(req.params.id);
+      const todo = await this.Todo.findById(req.params.id);
       if (!todo) {
         return res.status(404).json({ message: "cannot find todo" });
       }
@@ -27,9 +27,9 @@ class TodoController {
 
   async createTodo(req, res, next) {
     try {
-      const { error } = validateTodoName(req.body);
+      const { error } = this.validator(req.body);
       if (error) return res.status(400).send(error.details[0].message);
-      const todo = new Todo({
+      const todo = new this.Todo({
         name: req.body.name,
       });
       const newTodo = await todo.save();
@@ -41,11 +41,11 @@ class TodoController {
 
   async updateTodo(req, res, next) {
     try {
-      const todo = await Todo.findById(req.params.id);
+      const todo = await this.Todo.findById(req.params.id);
       if (!todo) {
         return res.status(404).json({ message: "cannot find todo" });
       }
-      const { error } = validateTodoName(req.body);
+      const { error } = this.validator(req.body);
       if (error) return res.status(400).send(error.details[0].message);
       if (req.body.name) {
         todo.name = req.body.name;
@@ -62,9 +62,9 @@ class TodoController {
 
   async deleteTodo(req, res, next) {
     try {
-      const todo = await Todo.findById(req.params.id);
+      const todo = await this.Todo.findById(req.params.id);
       if (!todo) {
-        res.status(204).end();
+        return res.status(204).end();
       }
       await todo.deleteOne();
       return res.status(404).json({ message: "deleted" });
@@ -72,14 +72,6 @@ class TodoController {
       next(err);
     }
   }
-}
-
-function validateTodoName(todoName) {
-  const schema = {
-    name: Joi.string().min(3).max(256).required(),
-    isDone: Joi.boolean(),
-  };
-  return Joi.validate(todoName, schema);
 }
 
 module.exports = TodoController;
