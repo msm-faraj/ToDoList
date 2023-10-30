@@ -1,4 +1,4 @@
-const Todo = require("../models/todo-schema");
+const Todo = require("../models/todo");
 const Joi = require("joi");
 
 class TodoController {
