@@ -1,4 +1,4 @@
-const Todo = require("../models/todo-schema");
+const Todo = require("../models/todo");
 const Joi = require("joi");
 
 class TodoController {
@@ -7,7 +7,7 @@ class TodoController {
   async getAllTodos(req, res, next) {
     try {
       const todos = await Todo.find();
-      res.json(todos);
+      return res.json(todos);
     } catch (err) {
       next(err);
     }
@@ -17,9 +17,9 @@ class TodoController {
     try {
       const todo = await Todo.findById(req.params.id);
       if (!todo) {
-        res.status(404).json({ message: "cannot find todo" });
-        res.json(todo);
+        return res.status(404).json({ message: "cannot find todo" });
       }
+      return res.json(todo);
     } catch (err) {
       next(err);
     }
@@ -33,7 +33,7 @@ class TodoController {
         name: req.body.name,
       });
       const newTodo = await todo.save();
-      res.status(201).json(newTodo);
+      return res.status(201).json(newTodo);
     } catch (err) {
       next(err);
     }
@@ -54,7 +54,7 @@ class TodoController {
         todo.isDone = req.body.isDone;
       }
       const updatedTodo = await todo.save();
-      res.json(updatedTodo);
+      return res.json(updatedTodo);
     } catch (err) {
       next(err);
     }
@@ -65,9 +65,9 @@ class TodoController {
       const todo = await Todo.findById(req.params.id);
       if (!todo) {
         res.status(204).end();
-        await todo.deleteOne();
-        res.status(204).end;
       }
+      await todo.deleteOne();
+      return res.status(404).json({ message: "deleted" });
     } catch (err) {
       next(err);
     }
