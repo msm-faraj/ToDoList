@@ -1,6 +1,5 @@
 const Todo = require("../models/todo-schema");
 const Joi = require("joi");
-const tryCatckMiddleware = require("../middleware/async-try-catch");
 
 class TodoController {
   constructor() {}
@@ -15,16 +14,15 @@ class TodoController {
   }
 
   async getOneTodo(req, res, next) {
-    let asyncResult;
     try {
-      asyncResult = await Todo.findById(req.params.id);
-      if (!asyncResult) {
-        return res.status(404).json({ message: "cannot find todo" });
+      const todo = await Todo.findById(req.params.id);
+      if (!todo) {
+        res.status(404).json({ message: "cannot find todo" });
+        res.json(todo);
       }
     } catch (err) {
       next(err);
     }
-    res.json(asyncResult);
   }
 
   async createTodo(req, res, next) {
@@ -42,21 +40,20 @@ class TodoController {
   }
 
   async updateTodo(req, res, next) {
-    let asyncResult;
     try {
-      asyncResult = await Todo.findById(req.params.id);
-      if (!asyncResult) {
+      const todo = await Todo.findById(req.params.id);
+      if (!todo) {
         return res.status(404).json({ message: "cannot find todo" });
       }
       const { error } = validateTodoName(req.body);
       if (error) return res.status(400).send(error.details[0].message);
       if (req.body.name) {
-        asyncResult.name = req.body.name;
+        todo.name = req.body.name;
       }
       if (req.body.isDone) {
-        asyncResult.isDone = req.body.isDone;
+        todo.isDone = req.body.isDone;
       }
-      const updatedTodo = await asyncResult.save();
+      const updatedTodo = await todo.save();
       res.json(updatedTodo);
     } catch (err) {
       next(err);
@@ -64,17 +61,16 @@ class TodoController {
   }
 
   async deleteTodo(req, res, next) {
-    let asyncResult;
     try {
-      asyncResult = await Todo.findById(req.params.id);
-      if (!asyncResult) {
-        return res.status(404).json({ message: "cannot find todo" });
+      const todo = await Todo.findById(req.params.id);
+      if (!todo) {
+        res.status(204).end();
+        await todo.deleteOne();
+        res.status(204).end;
       }
     } catch (err) {
       next(err);
     }
-    await asyncResult.deleteOne();
-    res.json({ message: "Deleted" });
   }
 }
 
