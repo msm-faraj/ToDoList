@@ -4,11 +4,12 @@ const Todo = require("../models/todo");
 const validator = require("../modules/validator");
 const Controler = require("../controllers/todo");
 const controler = new Controler(Todo, validator);
+const reqHandler = require("../middleware/req-handler");
 
-router.get("/", controler.getAllTodos.bind(controler));
-router.get("/:id", controler.getOneTodo.bind(controler));
-router.post("/", controler.createTodo.bind(controler));
-router.patch("/:id", controler.updateTodo.bind(controler));
-router.delete("/:id", controler.deleteTodo.bind(controler));
+router.get("/", reqHandler(controler.getAllTodos.bind(controler)));
+router.get("/:id", reqHandler(controler.getOneTodo.bind(controler)));
+router.post("/", reqHandler(controler.createTodo.bind(controler)));
+router.patch("/:id", reqHandler(controler.updateTodo.bind(controler)));
+router.delete("/:id", reqHandler(controler.deleteTodo.bind(controler)));
 
 module.exports = router;
