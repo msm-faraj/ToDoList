@@ -50,7 +50,7 @@ class TodoController {
       return res.status(204).end();
     }
     await todo.deleteOne();
-    return res.status(404).json({ message: "deleted" });
+    return res.status(204).json({ message: "deleted" });
   }
 }
 
