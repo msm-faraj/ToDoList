@@ -8,8 +8,10 @@ class TodoController {
     const page = req.query.page || 0;
     const todoPerPage = 3;
     const isDoneQuery = { isDone: false };
+    const notDeletedQuery = { deletedAt: null };
+    const isVisible = isDoneQuery && notDeletedQuery;
 
-    const todos = await this.Todo.find(isDoneQuery)
+    const todos = await this.Todo.find(isVisible)
       .sort({ createdAt: -1 })
       .skip(page * todoPerPage)
       .limit(todoPerPage);
