@@ -49,7 +49,11 @@ class TodoController {
     if (!todo) {
       return res.status(204).end();
     }
-    await todo.deleteOne();
+    if (todo) {
+      todo.deletedAt = new Date();
+      await todo.save();
+    }
+    // await todo.deleteOne();
     return res.status(204).json({ message: "deleted" });
   }
 }
