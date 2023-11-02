@@ -5,7 +5,14 @@ class TodoController {
   }
 
   async getAllTodos(req, res) {
-    const todos = await this.Todo.find();
+    const page = req.query.page || 0;
+    const todoPerPage = 3;
+    const isDoneQuery = { isDone: false };
+
+    const todos = await this.Todo.find(isDoneQuery)
+      .sort({ createdAt: -1 })
+      .skip(page * todoPerPage)
+      .limit(todoPerPage);
     return res.json(todos);
   }
 
