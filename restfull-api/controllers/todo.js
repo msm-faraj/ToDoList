@@ -1,12 +1,17 @@
 class TodoController {
-  constructor(Todo, validator, paginator) {
+  constructor(Todo, validator) {
     this.Todo = Todo;
     this.validator = validator;
-    this.paginator = paginator;
   }
 
   async getAllTodos(req, res) {
-    const todos = await this.paginator(req);
+    const page = req.query.page || 0;
+    const prPage = req.query.prPage || 1;
+
+    const todos = await this.Todo.find({ isDone: false, deletedAt: null })
+      .sort({ createdAt: -1 })
+      .skip(page * prPage)
+      .limit(prPage);
     return res.json(todos);
   }
 
