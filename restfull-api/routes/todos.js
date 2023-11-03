@@ -3,7 +3,8 @@ const router = express.Router();
 const Todo = require("../models/todo");
 const validator = require("../modules/validator");
 const Controler = require("../controllers/todo");
-const controler = new Controler(Todo, validator);
+const paginator = require("../middleware/pagination");
+const controler = new Controler(Todo, validator, paginator);
 const reqHandler = require("../middleware/req-handler");
 
 router.get("/", reqHandler(controler.getAllTodos.bind(controler)));
