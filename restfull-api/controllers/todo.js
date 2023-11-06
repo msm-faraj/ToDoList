@@ -10,7 +10,7 @@ class TodoController {
 
     const todos = await this.Todo.find({ isDone: false, deletedAt: null })
       .sort({ createdAt: -1 })
-      .skip(page * prPage)
+      .skip((page - 1) * prPage)
       .limit(prPage);
     return res.json(todos);
   }
