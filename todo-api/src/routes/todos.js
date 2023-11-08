@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Todo = require("../models/todo");
-const validator = require("../modules/validator");
+const { Todo } = require("../models/todo");
+const { validate } = require("../models/todo");
 const Controler = require("../controllers/todo");
-const controler = new Controler(Todo, validator);
+const controler = new Controler(Todo, validate);
 const reqHandler = require("../middleware/req-handler");
 
 router.get("/", reqHandler(controler.getAllTodos.bind(controler)));
