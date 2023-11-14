@@ -1,4 +1,3 @@
-const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const Todo = mongoose.model(
@@ -29,12 +28,4 @@ const Todo = mongoose.model(
   )
 );
 
-function validateTodo(reqBody) {
-  const schema = {
-    name: Joi.string().min(3).max(256).required(),
-    isDone: Joi.boolean(),
-  };
-  return Joi.validate(reqBody, schema);
-}
-module.exports.Todo = Todo;
-module.exports.validate = validateTodo;
+module.exports = Todo;
