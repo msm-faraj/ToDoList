@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Todo } = require("../models/todo");
-const { validate } = require("../models/todo");
+const Todo = require("../models/todo");
+const validate = require("../modules/validator");
 const Controler = require("../controllers/todo");
 const controler = new Controler(Todo, validate);
 const reqHandler = require("../middleware/req-handler");
