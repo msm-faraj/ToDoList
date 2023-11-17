@@ -1,4 +1,4 @@
-FROM node:21-alpine  
+FROM node:17-alpine  
 
 WORKDIR /todo-api
 

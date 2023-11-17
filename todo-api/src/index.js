@@ -9,10 +9,10 @@ app.use(express.json());
 app.use("/api/todos", todosRouter);
 app.use(error);
 
-// mongoose.connect("mongodb://localhost/todo");
-mongoose.connect(
-  "mongodb+srv://msm-faraj:vWVkhcclNlpLEewG@cluster0.ekykahb.mongodb.net/"
-);
+mongoose.connect("mongodb://db:27017");
+// mongoose.connect(
+//   "mongodb+srv://msm-faraj:vWVkhcclNlpLEewG@cluster0.ekykahb.mongodb.net/"
+// );
 
 mongoose.connection.on("error", (error) => console.error(error.text));
 mongoose.connection.once("open", () => console.log("Connected to Database..."));
