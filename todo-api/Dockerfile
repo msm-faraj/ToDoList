@@ -4,10 +4,8 @@ WORKDIR /todo-api
 
 COPY package*.json ./
 
-COPY src ./src
-
 RUN npm install
 
-EXPOSE 3131
+COPY src ./src
 
 CMD [ "npm", "run", "start" ]
