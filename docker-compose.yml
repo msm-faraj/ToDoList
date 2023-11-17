@@ -1,0 +1,13 @@
+version: "3.8"
+services: 
+  todo-api: 
+    build: ./todo-api
+    container_name: api_c
+    ports:
+      - "3000:3000"
+
+  db:
+    image: "mongo:7.0.3"
+    ports:
+      - "27017:27017"
+
