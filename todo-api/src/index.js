@@ -15,4 +15,8 @@ mongoose.connection.on("error", (error) => console.error(error.text));
 mongoose.connection.once("open", () => console.log("Connected to Database..."));
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const server = app.listen(port, () =>
+  console.log(`Listening on port ${port}...`)
+);
+
+module.exports = server;
