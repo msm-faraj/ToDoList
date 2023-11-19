@@ -1,9 +1,59 @@
 const Controler = require("./todo");
 
 describe("TodoController", () => {
-  describe("getOneTodo", () => {
-    let res;
+  describe("getAllTodos", () => {
     let req;
+    let res;
+    let page;
+    let prPage;
+    let todo;
+    let todos;
+    let Todo;
+    let mockSort;
+    let mockSkip;
+    let mockLimit;
+
+    describe("when everything is successful", () => {
+      beforeEach(async () => {
+        page = 1;
+        prPage = 5;
+        req = { query: { page, prPage } };
+        res = {
+          json: jest.fn(),
+        };
+        const filter = { isDone: false, deletedAt: null };
+        mockLimit = { limit: jest.fn() };
+        mockSkip = { skip: jest.fn().mockReturnValueOnce(mockLimit) };
+        mockSort = { sort: jest.fn().mockReturnValueOnce(mockSkip) };
+        Todo = { find: jest.fn().mockReturnValueOnce(mockSort) };
+        const validate = {};
+        const controler = new Controler(Todo, validate);
+        await controler.getAllTodos(req, res);
+      });
+      it("should call .find with correct parameters", () => {
+        expect(Todo.find).toHaveBeenCalledWith({
+          isDone: false,
+          deletedAt: null,
+        });
+      });
+      it("should call .sort with correct parameters", () => {
+        expect(mockSort.sort).toHaveBeenCalledWith({ createdAt: -1 });
+      });
+      it("should call .skip with correct parameters", () => {
+        expect(mockSkip.skip).toHaveBeenCalledWith((page - 1) * prPage);
+      });
+      it("should call .limit with correct parameters", () => {
+        expect(mockLimit.limit).toHaveBeenCalledWith(prPage);
+      });
+      it("should call res.json with correct parameters", () => {
+        expect(res.json).toHaveBeenCalledWith(todos);
+      });
+    });
+  });
+
+  describe("getOneTodo", () => {
+    let req;
+    let res;
     let todo;
     let Todo;
     let mockJson;
