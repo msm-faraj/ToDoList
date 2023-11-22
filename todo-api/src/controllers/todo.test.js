@@ -14,6 +14,7 @@ let mockLimit;
 let mockJson;
 let validator;
 let mockSend;
+let updatedTodo;
 let mockSave;
 let newTodo;
 let mockValidator;
@@ -162,5 +163,61 @@ describe("TodoController", () => {
       });
     });
   });
-  describe("updateTodo", () => {});
+  describe("updateTodo", () => {
+    describe("when todo does not exist in the database", () => {
+      beforeEach(async () => {
+        let id;
+        todo = { id };
+        Todo = {
+          findById: jest.fn().mockResolvedValueOnce(null),
+        };
+        req = { params: { id } };
+        mockJson = { json: jest.fn() };
+        res = {
+          status: jest.fn().mockReturnValueOnce(mockJson),
+        };
+
+        const validator = {};
+        const controler = new Controler(Todo, validator);
+        await controler.updateTodo(req, res);
+      });
+      it("should call res.status with correct paramaters(404)", () => {
+        expect(res.status).toHaveBeenCalledWith(404);
+      });
+      it("should call .json with correct parameters", () => {
+        expect(mockJson.json).toHaveBeenCalledWith({
+          message: "cannot find todo",
+        });
+      });
+    });
+    describe("when validator throw an error", () => {
+      beforeEach(async () => {
+        let id;
+        todo = { id };
+        Todo = {
+          findById: jest.fn().mockResolvedValueOnce(1),
+        };
+        req = { body: { name: "somename" }, params: { id } };
+        error = { details: [{ message: "someMmessage" }, "string"] };
+        validator = jest.fn().mockReturnValueOnce({
+          error: error,
+        });
+        const controler = new Controler(Todo, validator);
+        mockSend = { send: jest.fn() };
+        res = {
+          status: jest.fn().mockReturnValueOnce(mockSend),
+        };
+        await controler.updateTodo(req, res);
+      });
+      it("should call vlidator with correct parameters", () => {
+        expect(validator).toHaveBeenCalledWith(req.body);
+      });
+      it("shoult call res.status with correct parameters(400)", () => {
+        expect(res.status).toHaveBeenCalledWith(400);
+      });
+      it("should call .send with correct parameters", () => {
+        expect(mockSend.send).toHaveBeenCalledWith(error.details[0].message);
+      });
+    });
+  });
 });

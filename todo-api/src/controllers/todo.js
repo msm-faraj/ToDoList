@@ -30,7 +30,6 @@ class TodoController {
     const todo = new this.Todo({
       name: req.body.name,
     });
-    console.log(todo);
     const newTodo = await todo.save();
     return res.status(201).json(newTodo);
   }
@@ -42,6 +41,7 @@ class TodoController {
     }
     const { error } = this.validator(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+
     if (req.body.name) {
       todo.name = req.body.name;
     }
