@@ -1,18 +1,25 @@
+const TodoController = require("./todo");
 const Controler = require("./todo");
+let req;
+let res;
+let page;
+let prPage;
+let todo;
+let todos;
+let Todo;
+let error;
+let mockSort;
+let mockSkip;
+let mockLimit;
+let mockJson;
+let validator;
+let mockSend;
+let mockSave;
+let newTodo;
+let mockValidator;
 
 describe("TodoController", () => {
   describe("getAllTodos", () => {
-    let req;
-    let res;
-    let page;
-    let prPage;
-    let todo;
-    let todos;
-    let Todo;
-    let mockSort;
-    let mockSkip;
-    let mockLimit;
-
     describe("when everything is successful", () => {
       beforeEach(async () => {
         page = 1;
@@ -50,14 +57,7 @@ describe("TodoController", () => {
       });
     });
   });
-
   describe("getOneTodo", () => {
-    let req;
-    let res;
-    let todo;
-    let Todo;
-    let mockJson;
-
     describe("when everything is successful", () => {
       beforeEach(async () => {
         const id = "65438ace7df7d6ac23b7237b";
@@ -65,8 +65,8 @@ describe("TodoController", () => {
         Todo = {
           findById: jest.fn().mockResolvedValueOnce(todo),
         };
-        const validate = {};
-        const controler = new Controler(Todo, validate);
+        const validator = {};
+        const controler = new Controler(Todo, validator);
 
         req = { params: { id } };
         res = {
@@ -75,16 +75,13 @@ describe("TodoController", () => {
 
         await controler.getOneTodo(req, res);
       });
-
       it("should call findById with correct parameters", async () => {
         expect(Todo.findById).toHaveBeenCalledWith(req.params.id);
       });
-
       it("should call res.json with correct parameters", async () => {
         expect(res.json).toHaveBeenCalledWith(todo);
       });
     });
-
     describe("when todo does not exist in the dtabase", () => {
       beforeEach(async () => {
         const id = "65438ace7df7d6ac23b7237b";
@@ -98,11 +95,11 @@ describe("TodoController", () => {
           status: jest.fn().mockReturnValueOnce(mockJson),
         };
 
-        const validate = {};
-        const controler = new Controler(Todo, validate);
+        const validator = {};
+        const controler = new Controler(Todo, validator);
         await controler.getOneTodo(req, res);
       });
-      it("should call res.status with correct paramatere", () => {
+      it("should call res.status with correct paramaters(404)", () => {
         expect(res.status).toHaveBeenCalledWith(404);
       });
       it("should call .json with correct parameters", () => {
@@ -112,4 +109,58 @@ describe("TodoController", () => {
       });
     });
   });
+  describe("createTodo", () => {
+    describe("when validator throw an error", () => {
+      beforeEach(async () => {
+        req = { body: { name: "somename" } };
+        error = { details: [{ message: "someMmessage" }, "string"] };
+        validator = jest.fn().mockReturnValueOnce({
+          error: error,
+        });
+        const controler = new Controler(Todo, validator);
+        mockSend = { send: jest.fn() };
+        res = {
+          status: jest.fn().mockReturnValueOnce(mockSend),
+        };
+        await controler.createTodo(req, res);
+      });
+      it("should call vlidator with correct parameters", () => {
+        expect(validator).toHaveBeenCalledWith(req.body);
+      });
+      it("shoult call res.status with correct parameters(400)", () => {
+        expect(res.status).toHaveBeenCalledWith(400);
+      });
+      it("should call .send with correct parameters", () => {
+        expect(mockSend.send).toHaveBeenCalledWith(error.details[0].message);
+      });
+    });
+    describe("when given data is valid to create a new todo", () => {
+      beforeEach(async () => {
+        req = { body: { name: "somename" } };
+        Todo = jest.fn().mockReturnValueOnce({ save: jest.fn() });
+        validator = jest.fn().mockReturnValueOnce({
+          error: null,
+        });
+        const controler = new Controler(Todo, validator);
+        mockJson = { json: jest.fn() };
+        res = {
+          status: jest.fn().mockReturnValueOnce(mockJson),
+        };
+        await controler.createTodo(req, res);
+      });
+      it("should call .Todo to create a new todo", () => {
+        expect(Todo).toHaveBeenCalledWith({ name: req.body.name });
+      });
+      it("should call .save to save new todo", () => {
+        expect(todo.save).toHaveBeenCalled;
+      });
+      it("should call .status with correct parameters", () => {
+        expect(res.status).toHaveBeenCalled;
+      });
+      it("should call res.json with correct paramaters", () => {
+        expect(mockJson.json).toHaveBeenCalledWith(newTodo);
+      });
+    });
+  });
+  describe("updateTodo", () => {});
 });

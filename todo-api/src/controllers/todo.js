@@ -26,9 +26,11 @@ class TodoController {
   async createTodo(req, res) {
     const { error } = this.validator(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+
     const todo = new this.Todo({
       name: req.body.name,
     });
+    console.log(todo);
     const newTodo = await todo.save();
     return res.status(201).json(newTodo);
   }
