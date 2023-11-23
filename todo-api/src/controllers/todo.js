@@ -26,6 +26,7 @@ class TodoController {
   async createTodo(req, res) {
     const { error } = this.validator(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+
     const todo = new this.Todo({
       name: req.body.name,
     });
@@ -40,6 +41,7 @@ class TodoController {
     }
     const { error } = this.validator(req.body);
     if (error) return res.status(400).send(error.details[0].message);
+
     if (req.body.name) {
       todo.name = req.body.name;
     }
@@ -53,6 +55,7 @@ class TodoController {
   async deleteTodo(req, res) {
     const todo = await this.Todo.findById(req.params.id);
     if (!todo) {
+      console.log(todo);
       return res.status(204).end();
     }
     todo.deletedAt = new Date();
