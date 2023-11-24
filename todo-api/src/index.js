@@ -9,10 +9,13 @@ app.use(express.json());
 app.use("/api/todos", todosRouter);
 app.use(error);
 
-mongoose.connect("mongodb://db:27017/test");
+let db = "test";
+mongoose.connect(`mongodb://db:27017/${db}`);
 
 mongoose.connection.on("error", (error) => console.error(error.text));
-mongoose.connection.once("open", () => console.log("Connected to Database..."));
+mongoose.connection.once("open", () =>
+  console.log(`Connected to ${db} Database...`)
+);
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>

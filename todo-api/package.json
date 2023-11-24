@@ -4,7 +4,7 @@
   "description": "my first api",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose --coverage",
     "start": "nodemon ."
   },
   "author": "msm-faraj",
