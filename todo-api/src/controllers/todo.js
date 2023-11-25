@@ -55,7 +55,6 @@ class TodoController {
   async deleteTodo(req, res) {
     const todo = await this.Todo.findById(req.params.id);
     if (!todo) {
-      console.log(todo);
       return res.status(204).end();
     }
     todo.deletedAt = new Date();
