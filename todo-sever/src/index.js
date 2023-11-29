@@ -3,9 +3,15 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const todosRouter = require("./routes/todos");
+const cors = require("cors");
 require("dotenv").config();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use("/api/todos", todosRouter);
 app.use(error);
 
