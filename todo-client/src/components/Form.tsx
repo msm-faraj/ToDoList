@@ -1,4 +1,6 @@
+import * as React from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 interface FormData {
   name: String;
@@ -8,9 +10,19 @@ const Form = () => {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<FormData>();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data: FormData) => {
+    axios
+      .post("http://localhost:3000/api/todos", data)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+  };
+
+  React.useEffect(() => {
+    setFocus("name");
+  }, [setFocus]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

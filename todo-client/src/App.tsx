@@ -4,13 +4,19 @@
 // import "./App.css";
 
 import Form from "./components/Form";
+import { TodoList } from "./components/TodoList";
 
 function App() {
   return (
     <>
       <div>Todo list</div>
+      <hr />
       <div>
         <Form></Form>
+      </div>
+      <hr />
+      <div>
+        <TodoList></TodoList>
       </div>
     </>
   );
