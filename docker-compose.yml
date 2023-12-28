@@ -1,13 +1,11 @@
-version: "3.8"
-services: 
-  todo-api: 
-    build: ./todo-api
-    container_name: api_c
+services:
+  todo-server:
+    build: ./todo-server
+    container_name: todo-server-cnt
     ports:
-      - "3000:3000"
+      - "4000:4000"
 
   db:
     image: "mongo:7.0.3"
     ports:
       - "27017:27017"
-

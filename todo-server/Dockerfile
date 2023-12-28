@@ -1,11 +1,11 @@
-FROM node:17-alpine  
+FROM node:21-alpine3.19
 
-WORKDIR /todo-api
+WORKDIR /todo-server
 
 COPY package*.json ./
 
 RUN npm install
 
-COPY src ./src
+COPY ./src ./src
 
 CMD [ "npm", "run", "start" ]
